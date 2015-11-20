@@ -12,7 +12,7 @@ return [
 
     'middleware_pipeline' => [
         'pre_routing' => [
-            [ 'middleware' => LosMiddleware\BasePath\BasePathFactory::class ],
+            [ 'middleware' => LosMiddleware\BasePath\BasePath::class ],
         ],
     ],
 
