@@ -1,0 +1,9 @@
+._*
+.~lock.*
+.buildpath
+.project
+.settings
+vendor
+/composer.lock
+/build
+/.php_cs.cache

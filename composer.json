@@ -1,0 +1,34 @@
+{
+  "name" : "los/basepath",
+  "description" : "PHP middleware to remove a path prefix from request uri",
+  "require" : {
+    "php" : "^5.5|^7.0",
+    "psr/http-message" : "~1.0",
+    "container-interop/container-interop" : "~1.1"
+  },
+  "require-dev" : {
+    "phpunit/phpunit" : "^5.0",
+    "squizlabs/php_codesniffer" : "^2.3",
+    "satooshi/php-coveralls" : "~0.6"
+  },
+  "license" : "MIT",
+  "autoload-dev" : {
+    "psr-4" : {
+      "LosMiddleware\\BasePathTest\\" : "test/"
+    }
+  },
+  "autoload" : {
+    "psr-4" : {
+      "LosMiddleware\\BasePath\\" : "src/"
+    }
+  },
+  "type" : "library",
+  "scripts" : {
+    "test" : [ "php vendor/squizlabs/php_codesniffer/scripts/phpcs", "php vendor/phpunit/phpunit/phpunit" ]
+  },
+  "homepage" : "https://github.com/lansoweb/basepath",
+  "authors" : [ {
+    "name" : "Leandro Silva",
+    "homepage" : "http://leandrosilva.info/"
+  } ]
+}

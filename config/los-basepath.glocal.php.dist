@@ -1,0 +1,19 @@
+<?php
+
+return [
+
+    'los_basepath' => '',
+
+    'dependencies' => [
+        'factories' => [
+            LosMiddleware\BasePath\BasePath::class => LosMiddleware\BasePath\BasePathFactory::class,
+        ],
+    ],
+
+    'middleware_pipeline' => [
+        'pre_routing' => [
+            [ 'middleware' => LosMiddleware\BasePath\BasePathFactory::class ],
+        ],
+    ],
+
+];
