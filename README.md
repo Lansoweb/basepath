@@ -8,7 +8,7 @@ Just add the middleware as one of the first in your application.
 
 For example:
 ```php
-$app->pipe(new \LosMiddleware\BasePath\BasePath('/site');
+$app->pipe(new \LosMiddleware\BasePath\BasePath('/site'));
 ```
 
 Every request with `/site` prefix will be replaced:
