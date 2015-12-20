@@ -2,6 +2,14 @@
 
 This middleware just removes a prefix from the request uri. 
 
+## Installation
+
+This middleware can be installed with composer.
+
+```bash
+$ composer require los/basepath
+```
+
 ## Usage
 
 Just add the middleware as one of the first in your application.
