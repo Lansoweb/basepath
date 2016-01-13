@@ -21,3 +21,17 @@ Every request with `/site` prefix will be replaced:
 ### Zend Expressive
 
 If you are using [expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton), you can copy `config/los-basepath.global.php.dist` to `config/autoload/los-basepath.global.php` and modify configuration as your needs.
+
+#### UrlHelper
+
+Zend Expressive comes with a UrlHelper that generates a url for your application, but we need to inject the new basePath.
+
+This modules comes with a UrlHelperFactory that does this job for you. Just add the following configuration:
+```php
+'dependencies' => [
+    'factories' => [
+        Zend\Expressive\Helper\UrlHelper::class => LosMiddleware\BasePath\UrlHelperFactory::class,
+        /* ... */
+    ],
+],
+``` 
