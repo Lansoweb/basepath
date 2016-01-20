@@ -11,8 +11,11 @@ return [
     ],
 
     'middleware_pipeline' => [
-        'pre_routing' => [
-            [ 'middleware' => LosMiddleware\BasePath\BasePath::class ],
+        'always' => [
+            'middleware' => [
+                LosMiddleware\BasePath\BasePath::class
+            ],
+            'priority' => PHP_INT_MAX,
         ],
     ],
 
