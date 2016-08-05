@@ -15,7 +15,6 @@ return [
             'middleware' => [
                 LosMiddleware\BasePath\BasePath::class
             ],
-            'priority' => PHP_INT_MAX,
         ],
     ],
 

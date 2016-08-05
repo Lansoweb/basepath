@@ -3,6 +3,7 @@
 namespace LosMiddleware\BasePath;
 
 use Interop\Container\ContainerInterface;
+use Zend\Expressive\Helper\UrlHelper;
 
 class BasePathFactory
 {
@@ -19,6 +20,16 @@ class BasePathFactory
             ? $config['los_basepath']
             : null;
 
-        return new BasePath($path);
+        $basePath = new BasePath($path);
+
+        if ($container->has(UrlHelper::class)) {
+            $basePath->setUrlHelper($container->get(UrlHelper::class));
+        }
+
+        if ($container->has(BasePathHelper::class)) {
+            $basePath->setBasePathHelper($container->get(BasePathHelper::class));
+        }
+
+        return $basePath;
     }
 }
