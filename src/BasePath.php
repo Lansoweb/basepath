@@ -7,6 +7,8 @@ use Zend\Expressive\Helper\UrlHelper;
 
 final class BasePath
 {
+    const BASE_PATH = 'los-basepath';
+
     /**
      * @var string
      */
@@ -45,7 +47,7 @@ final class BasePath
 
         if (!empty($path)) {
             $request = $request->withUri($uri->withPath($path));
-            $request = $request->withAttribute('los-basepath', $path);
+            $request = $request->withAttribute(static::BASE_PATH, $path);
 
             if ($this->urlHelper) {
                 $this->urlHelper->setBasePath($path);
