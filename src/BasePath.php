@@ -47,8 +47,10 @@ final class BasePath
 
         if (!empty($path)) {
             $request = $request->withUri($uri->withPath($path));
-            $request = $request->withAttribute(static::BASE_PATH, $path);
         }
+
+        $request = $request->withAttribute(static::BASE_PATH, $this->basePath . $path);
+
         if ($this->urlHelper && !empty($this->basePath)) {
             $this->urlHelper->setBasePath($this->basePath);
         }
@@ -59,7 +61,7 @@ final class BasePath
     /**
      * @param UrlHelper $urlHelper
      */
-    public function setUrlHelper(UrlHelper $urlHelper)
+    public function setUrlHelper($urlHelper)
     {
         $this->urlHelper = $urlHelper;
     }
