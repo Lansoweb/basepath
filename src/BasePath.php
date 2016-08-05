@@ -3,6 +3,7 @@ namespace LosMiddleware\BasePath;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Zend\Expressive\Helper\UrlHelper;
 
 final class BasePath
 {
@@ -10,6 +11,16 @@ final class BasePath
      * @var string
      */
     private $basePath;
+
+    /**
+     * @var UrlHelper
+     */
+    private $urlHelper;
+
+    /**
+     * @var BasePathHelper
+     */
+    private $basePathHelper;
 
     /**
      * @param string $basePath
@@ -29,10 +40,35 @@ final class BasePath
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
         $uri = $request->getUri();
-        if (! empty($this->basePath) && strpos($uri->getPath(), $this->basePath) === 0) {
-            $path = substr($uri->getPath(), strlen($this->basePath)) ?: '';
+
+        $path = $this->getBasePath($request);
+
+        if (!empty($path)) {
             $request = $request->withUri($uri->withPath($path));
+            $request = $request->withAttribute('los-basepath', $path);
+
+            if ($this->urlHelper) {
+                $this->urlHelper->setBasePath($path);
+            }
         }
+
         return $next($request, $response);
+    }
+
+    /**
+     * @param UrlHelper $urlHelper
+     */
+    public function setUrlHelper(UrlHelper $urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    private function getBasePath(RequestInterface $request)
+    {
+        $uri = $request->getUri();
+        if (empty($this->basePath) || strpos($uri->getPath(), $this->basePath) !== 0) {
+            return null;
+        }
+        return substr($uri->getPath(), strlen($this->basePath)) ?: '';
     }
 }
