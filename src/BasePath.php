@@ -43,12 +43,15 @@ final class BasePath
     {
         $uri = $request->getUri();
 
-        $path = $this->getPath($request);
+        $path = $uri->getPath();
 
-        if (!empty($path)) {
-            $request = $request->withUri($uri->withPath($path));
+        if (empty($this->basePath) || strpos($path, $this->basePath) !== 0) {
+            return $next($request, $response);
         }
-
+        
+        $path = substr($path, strlen($this->basePath)) ?: '/';
+        
+        $request = $request->withUri($uri->withPath($path));
         $request = $request->withAttribute(static::BASE_PATH, $this->basePath . $path);
 
         if ($this->urlHelper && !empty($this->basePath)) {
@@ -66,12 +69,4 @@ final class BasePath
         $this->urlHelper = $urlHelper;
     }
 
-    private function getPath(RequestInterface $request)
-    {
-        $uri = $request->getUri();
-        if (empty($this->basePath) || strpos($uri->getPath(), $this->basePath) !== 0) {
-            return null;
-        }
-        return substr($uri->getPath(), strlen($this->basePath)) ?: '';
-    }
 }

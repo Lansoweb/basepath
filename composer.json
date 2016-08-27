@@ -8,10 +8,7 @@
   },
   "require-dev" : {
     "phpunit/phpunit" : "^5.0",
-    "squizlabs/php_codesniffer" : "^2.3",
-    "satooshi/php-coveralls" : "~0.6",
-    "zendframework/zend-expressive-helpers": "^1.2",
-    "zendframework/zend-expressive-zendviewrenderer": "^1.0"
+    "zendframework/zend-diactoros" : "^1.0"
   },
   "license" : "MIT",
   "autoload-dev" : {
@@ -26,7 +23,7 @@
   },
   "type" : "library",
   "scripts" : {
-    "test" : [ "php vendor/squizlabs/php_codesniffer/scripts/phpcs", "php vendor/phpunit/phpunit/phpunit" ]
+    "test" : [ "php vendor/phpunit/phpunit/phpunit" ]
   },
   "homepage" : "https://github.com/lansoweb/basepath",
   "authors" : [ {
