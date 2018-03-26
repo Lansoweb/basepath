@@ -26,7 +26,21 @@ Every request with `/site` prefix will be replaced:
 /site/contact-us => /contact-us
 ```
 
+
 ### Zend Expressive
 
 If you are using [expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton), you can copy `config/los-basepath.global.php.dist` to `config/autoload/los-basepath.global.php` and modify configuration as your needs.
 
+### Dynamic base path
+
+In some cases a dynamic base path might be required. This can be achieved with the following code in your configuration file:
+
+```php
+$scriptPath = dirname($_SERVER['SCRIPT_NAME']);
+return [
+    // Use directory of script path if available, otherwise default to empty string.
+    'los_basepath' => strlen($scriptPath) > 1 ? $scriptPath : '',
+    
+    // rest of the configuration ...
+];
+```
