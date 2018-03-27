@@ -1,21 +1,9 @@
 <?php
-
 return [
-
     'los_basepath' => '',
-
     'dependencies' => [
         'factories' => [
             LosMiddleware\BasePath\BasePath::class => LosMiddleware\BasePath\BasePathFactory::class,
         ],
     ],
-
-    'middleware_pipeline' => [
-        'always' => [
-            'middleware' => [
-                LosMiddleware\BasePath\BasePath::class
-            ],
-        ],
-    ],
-
 ];

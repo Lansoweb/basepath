@@ -1,11 +1,13 @@
 <?php
 namespace LosMiddleware\BasePath;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Expressive\Helper\UrlHelper;
 
-final class BasePath
+final class BasePathMiddleware implements MiddlewareInterface
 {
     const BASE_PATH = 'los-basepath';
 
@@ -20,53 +22,39 @@ final class BasePath
     private $urlHelper;
 
     /**
-     * @var BasePathHelper
-     */
-    private $basePathHelper;
-
-    /**
      * @param string $basePath
+     * @param UrlHelper $urlHelper
      */
-    public function __construct($basePath = null)
+    public function __construct(string $basePath = '', UrlHelper $urlHelper = null)
     {
-        $this->basePath = (string) $basePath;
+        $this->basePath = $basePath;
+        $this->urlHelper = $urlHelper;
     }
 
     /**
-     * Runs the middleware
-     *
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $next
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
      */
-    public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $uri = $request->getUri();
 
         $path = $uri->getPath();
 
         if (empty($this->basePath) || strpos($path, $this->basePath) !== 0) {
-            return $next($request, $response);
+            return $handler->handle($request);
         }
-        
+
         $path = substr($path, strlen($this->basePath)) ?: '/';
-        
+
         $request = $request->withUri($uri->withPath($path));
         $request = $request->withAttribute(static::BASE_PATH, $this->basePath . $path);
 
-        if ($this->urlHelper && !empty($this->basePath)) {
+        if ($this->urlHelper instanceof UrlHelper) {
             $this->urlHelper->setBasePath($this->basePath);
         }
 
-        return $next($request, $response);
+        return $handler->handle($request);
     }
-
-    /**
-     * @param UrlHelper $urlHelper
-     */
-    public function setUrlHelper($urlHelper)
-    {
-        $this->urlHelper = $urlHelper;
-    }
-
 }

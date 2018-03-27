@@ -16,7 +16,7 @@ Just add the middleware as one of the first in your application.
 
 For example:
 ```php
-$app->pipe(new \LosMiddleware\BasePath\BasePath('/site'));
+$app->pipe(new \LosMiddleware\BasePath\BasePathMiddleware('/site'));
 ```
 
 Every request with `/site` prefix will be replaced:
@@ -29,11 +29,19 @@ Every request with `/site` prefix will be replaced:
 
 ### Zend Expressive
 
-If you are using [expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton), you can copy `config/los-basepath.global.php.dist` to `config/autoload/los-basepath.global.php` and modify configuration as your needs.
+If you are using [expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton), 
+you can copy `config/los-basepath.global.php.dist` to `config/autoload/los-basepath.global.php` 
+and modify configuration as your needs.
+
+Then, add the middleware to your pipeline:
+```php
+$app->pipe(LosMiddleware\BasePath\BasePathMiddleware::class);
+```
 
 ### Dynamic base path
 
-In some cases a dynamic base path might be required. This can be achieved with the following code in your configuration file:
+In some cases a dynamic base path might be required. 
+This can be achieved with the following code in your configuration file:
 
 ```php
 $scriptPath = dirname($_SERVER['SCRIPT_NAME']);

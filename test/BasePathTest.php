@@ -1,18 +1,18 @@
 <?php
 namespace LosMiddleware\BasePathTest;
 
-use LosMiddleware\BasePath\BasePath;
-use Zend\Diactoros\Response;
+use LosMiddleware\BasePath\BasePathMiddleware;
+use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\ServerRequest;
 
 /**
  * BasePath test case.
  */
-class BasePathTest extends \PHPUnit_Framework_TestCase
+class BasePathMiddlewareTest extends TestCase
 {
 
     /**
-     * @var BasePath
+     * @var BasePathMiddleware
      */
     private $basePath;
 
@@ -22,8 +22,7 @@ class BasePathTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        
-        $this->basePath = new BasePath('/basepath');
+        $this->basePath = new BasePathMiddleware('/basepath');
     }
 
     /**
@@ -32,10 +31,9 @@ class BasePathTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->basePath = null;
-        
         parent::tearDown();
     }
-    
+
     public function routeProvider()
     {
         return [
@@ -48,15 +46,16 @@ class BasePathTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $route
+     * @param $expected
      * @dataProvider routeProvider
      */
     public function testCanHandleRoutes($route, $expected)
     {
-        $response = $this->basePath->__invoke(new ServerRequest([], [], $route), new Response(), function(ServerRequest $request) {
-            return $request->getUri()->getPath();
-        });
-        $this->assertSame($expected, $response);
+        $request = new ServerRequest([], [], $route);
+        $response = $this->basePath->process($request, new RequestHandler());
+        $path = json_decode((string) $response->getBody(), true)['path'];
+        $this->assertSame($expected, $path);
     }
 
 }
-
