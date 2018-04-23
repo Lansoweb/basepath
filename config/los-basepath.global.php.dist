@@ -3,7 +3,7 @@ return [
     'los_basepath' => '',
     'dependencies' => [
         'factories' => [
-            LosMiddleware\BasePath\BasePath::class => LosMiddleware\BasePath\BasePathFactory::class,
+            LosMiddleware\BasePath\BasePathMiddleware::class => LosMiddleware\BasePath\BasePathMiddlewareFactory::class
         ],
     ],
 ];
