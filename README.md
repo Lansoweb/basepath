@@ -27,9 +27,9 @@ Every request with `/site` prefix will be replaced:
 ```
 
 
-### Zend Expressive
+### Mezzio (formely Zend Expressive)
 
-If you are using [expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton), 
+If you are using [mezzio-skeleton](https://github.com/mezzio/mezzio-skeleton), 
 you can copy `config/los-basepath.global.php.dist` to `config/autoload/los-basepath.global.php` 
 and modify configuration as your needs.
 

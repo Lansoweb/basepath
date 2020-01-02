@@ -3,7 +3,7 @@ namespace LosMiddleware\BasePathTest;
 
 use LosMiddleware\BasePath\BasePathMiddleware;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest;
 
 /**
  * BasePath test case.

@@ -3,7 +3,7 @@
 namespace LosMiddleware\BasePath;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class BasePathMiddlewareFactory
 {
