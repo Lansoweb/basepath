@@ -1,41 +1,33 @@
 <?php
+
+declare(strict_types=1);
+
 namespace LosMiddleware\BasePath;
 
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\UrlHelper;
+
+use function strlen;
+use function strpos;
+use function substr;
 
 final class BasePathMiddleware implements MiddlewareInterface
 {
-    const BASE_PATH = 'los-basepath';
+    public const BASE_PATH = 'los-basepath';
 
-    /**
-     * @var string
-     */
-    private $basePath;
+    private string $basePath;
 
-    /**
-     * @var UrlHelper
-     */
-    private $urlHelper;
+    private ?UrlHelper $urlHelper;
 
-    /**
-     * @param string $basePath
-     * @param UrlHelper $urlHelper
-     */
-    public function __construct(string $basePath = '', UrlHelper $urlHelper = null)
+    public function __construct(string $basePath, ?UrlHelper $urlHelper)
     {
-        $this->basePath = $basePath;
+        $this->basePath  = $basePath;
         $this->urlHelper = $urlHelper;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $uri = $request->getUri();
@@ -49,7 +41,7 @@ final class BasePathMiddleware implements MiddlewareInterface
         $path = substr($path, strlen($this->basePath)) ?: '/';
 
         $request = $request->withUri($uri->withPath($path));
-        $request = $request->withAttribute(static::BASE_PATH, $this->basePath . $path);
+        $request = $request->withAttribute(self::BASE_PATH, $this->basePath . $path);
 
         if ($this->urlHelper instanceof UrlHelper) {
             $this->urlHelper->setBasePath($this->basePath);

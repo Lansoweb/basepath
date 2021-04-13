@@ -1,30 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LosMiddleware\BasePath;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Container\ContainerInterface;
 
-class BasePathMiddlewareFactory
+use function assert;
+use function is_array;
+use function is_string;
+
+final class BasePathMiddlewareFactory
 {
-    /**
-     * Creates the middleware
-     *
-     * @param ContainerInterface $container
-     * @return \LosMiddleware\BasePath\BasePathMiddleware
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): BasePathMiddleware
     {
         $config = $container->get('config');
-        $path = $config['los_basepath'] ?? '';
+        assert(is_array($config));
 
-        $urlHelper = null;
+        $path = $config['los']['basepath'] ?? $config['los_basepath'] ?? '';
+        assert(is_string($path));
 
-        if ($container->has(UrlHelper::class)) {
-            $urlHelper = $container->get(UrlHelper::class);
-        }
+        $urlHelper = $container->has(UrlHelper::class) ? $container->get(UrlHelper::class) : null;
+        assert($urlHelper instanceof UrlHelper || $urlHelper === null);
 
         return new BasePathMiddleware($path, $urlHelper);
     }
