@@ -1,6 +1,8 @@
 <?php
 return [
-    'los_basepath' => '',
+    'los' => [
+        'basepath' => '',
+    ],
     'dependencies' => [
         'factories' => [
             LosMiddleware\BasePath\BasePathMiddleware::class => LosMiddleware\BasePath\BasePathMiddlewareFactory::class

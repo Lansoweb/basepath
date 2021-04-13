@@ -10,31 +10,20 @@ use Laminas\Diactoros\ServerRequest;
  */
 class BasePathMiddlewareTest extends TestCase
 {
-
-    /**
-     * @var BasePathMiddleware
-     */
-    private $basePath;
+    private BasePathMiddleware $basePath;
 
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-        $this->basePath = new BasePathMiddleware('/basepath');
+        $this->basePath = new BasePathMiddleware('/basepath', null);
     }
 
     /**
-     * Cleans up the environment after running a test.
+     * @return string[][]
      */
-    protected function tearDown()
-    {
-        $this->basePath = null;
-        parent::tearDown();
-    }
-
-    public function routeProvider()
+    public function routeProvider(): array
     {
         return [
             ['', ''],
@@ -46,11 +35,9 @@ class BasePathMiddlewareTest extends TestCase
     }
 
     /**
-     * @param $route
-     * @param $expected
      * @dataProvider routeProvider
      */
-    public function testCanHandleRoutes($route, $expected)
+    public function testCanHandleRoutes(string $route, string $expected): void
     {
         $request = new ServerRequest([], [], $route);
         $response = $this->basePath->process($request, new RequestHandler());

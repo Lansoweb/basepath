@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        colors="true"
+>
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <report>
+      <text outputFile="php://stdout" showOnlySummary="true"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="LosMiddleware\\BasePathTest">
+      <directory>./test</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
