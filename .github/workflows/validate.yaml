@@ -212,4 +212,4 @@ jobs:
         run: "composer update --no-interaction --no-progress"
 
       - name: "Run static analysis"
-        run: "vendor/bin/psalm analyse --output-format=github"
+        run: "vendor/bin/psalm --output-format=github"
